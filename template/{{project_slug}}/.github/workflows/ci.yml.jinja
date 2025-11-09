@@ -11,8 +11,10 @@ on:
     types: [published]
 
 concurrency:
+  {% raw %}
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+  {% endraw %}
 
 env:
   RUST_VERSION: stable

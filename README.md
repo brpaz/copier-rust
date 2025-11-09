@@ -11,7 +11,12 @@
 
 ## 📦 What is included?
 
-TBD
+- [Devenv](https://devenv.dev/) configuration for a reproducible development environment using Nix.
+- [Direnv](https://direnv.net/) integration for automatic environment loading.
+- [Taskfile](https://taskfile.dev/) as a task runner to simplify common development tasks.
+- GitHub Actions CI workflow for building, testing, linting, and releasing the project.
+- Pre-configured linters and formatters (Clippy and Rustfmt).
+- Git commit hooks using [Lefthook](https://lefthook.io/) to enforce code quality before commits.
 
 ## 🚀 Getting Started
 
