@@ -1,0 +1,44 @@
+# https://taskfile.dev
+
+version: "3"
+
+tasks:
+  default:
+    cmds:
+      - task -l
+
+  info:
+    desc: "Display project information"
+    cmds:
+      - rustc --version
+      - cargo --version
+
+  format:
+    desc: "Format code using rustfmt"
+    cmds:
+      - cargo fmt
+
+  build:
+    desc: "Build the project"
+    cmds:
+      - cargo build
+
+  lint:
+    desc: "Lint the code"
+    cmds:
+      - cargo clippy --fix
+
+  test:
+    desc: "Run tests"
+    cmds:
+      - cargo test
+
+  release:
+    desc: "Build release version"
+    cmds:
+      - cargo build --release
+
+  docs:
+    desc: "Generate documentation"
+    cmds:
+      - cargo doc --no-deps

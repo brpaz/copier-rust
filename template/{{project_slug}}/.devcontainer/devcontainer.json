@@ -1,0 +1,6 @@
+{
+  "customizations": {},
+  "image": "ghcr.io/cachix/devenv/devcontainer:latest",
+  "overrideCommand": false,
+  "postStartCommand": "direnv allow"
+}

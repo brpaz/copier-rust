@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "rust-lang.rust-analyzer",
+    "mkhl.direnv",
+    "task.vscode-task",
+    "redhat.vscode-yaml",
+    "tamasfe.even-better-toml"
+  ]
+}
