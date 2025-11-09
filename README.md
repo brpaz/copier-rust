@@ -7,7 +7,7 @@
 
 </p>
 
-> A copier template to scafold a Rust project.
+> A [Copier](https://copier.readthedocs.io/en/stable/) template to scafold a Rust project.
 
 ## 📦 What is included?
 
