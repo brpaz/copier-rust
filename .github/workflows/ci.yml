@@ -36,7 +36,8 @@ jobs:
         run: |
           tmpdir=$(mktemp -d)
           copier copy -r HEAD --force --trust --skip-tasks \
-            -d name="Test Project" \
+            -d project_name="Test Project" \
+            -d github_repository="testuser/test-repo" \
             . "$tmpdir"
           echo "output_dir=$tmpdir/test-project" >> $GITHUB_OUTPUT
 
