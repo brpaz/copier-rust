@@ -4,6 +4,8 @@
   config,
   ...
 }: {
+  dotenv.enable = true;
+
   # https://devenv.sh/packages/
   packages = with pkgs; [
     commitlint-rs
@@ -14,11 +16,8 @@
   # https://devenv.sh/languages/
   languages.rust = {
     enable = true;
-    channel = "stable";
-    components = ["rustc" "cargo" "clippy" "rustfmt" "rust-analyzer"];
+    toolchainFile = ./rust-toolchain.toml;
   };
-
-  devcontainer.enable = true;
 
   # https://devenv.sh/processes/
   processes.cargo-watch.exec = "cargo-watch";
@@ -31,7 +30,10 @@
   '';
 
   enterShell = ''
-    rust --version
+    if [ ! -f .env ]; then
+      cp .env.example .env
+    fi
+    rustc --version
     lefthook install
   '';
 
@@ -48,6 +50,7 @@
 
   # https://devenv.sh/tests/
   enterTest = ''
+    cargo test
   '';
 
   # https://devenv.sh/git-hooks/

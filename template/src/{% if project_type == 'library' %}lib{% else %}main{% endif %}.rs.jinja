@@ -1,0 +1,103 @@
+{% if project_type == 'library' -%}
+pub fn add(left: u64, right: u64) -> u64 {
+    left + right
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn it_works() {
+        let result = add(2, 2);
+        assert_eq!(result, 4);
+    }
+}
+{% elif project_type == 'cli' -%}
+use clap::Parser;
+
+const VERSION: &str = concat!(
+    env!("VERSION"),
+    " (",
+    env!("REVISION"),
+    ")",
+    " built ",
+    env!("BUILD_DATE"),
+);
+
+/// {{ project_description }}
+#[derive(Parser, Debug)]
+#[command(name = "{{ project_slug }}", version = VERSION, about)]
+struct Args {
+    /// Name to greet
+    #[arg(short, long, default_value = "World")]
+    name: String,
+}
+
+fn main() {
+    let args = Args::parse();
+    println!("Hello, {}!", args.name);
+}
+{% elif project_type == 'tui' -%}
+use std::io;
+
+use crossterm::event::{self, Event, KeyCode, KeyEventKind};
+use ratatui::{
+    layout::{Alignment, Constraint, Direction, Layout},
+    style::{Color, Style},
+    text::Text,
+    widgets::{Block, Borders, Paragraph},
+    DefaultTerminal, Frame,
+};
+
+const VERSION: &str = concat!(
+    env!("VERSION"),
+    " (",
+    env!("REVISION"),
+    ")",
+    " built ",
+    env!("BUILD_DATE"),
+);
+
+fn main() -> io::Result<()> {
+    let mut terminal = ratatui::init();
+    let result = run(&mut terminal);
+    ratatui::restore();
+    result
+}
+
+fn run(terminal: &mut DefaultTerminal) -> io::Result<()> {
+    loop {
+        terminal.draw(ui)?;
+
+        if let Event::Key(key) = event::read()? {
+            if key.kind == KeyEventKind::Press && key.code == KeyCode::Char('q') {
+                return Ok(());
+            }
+        }
+    }
+}
+
+fn ui(frame: &mut Frame) {
+    let area = frame.area();
+
+    let block = Block::default()
+        .title(format!(" {{ project_name }} {} ", VERSION))
+        .borders(Borders::ALL)
+        .style(Style::default().fg(Color::White));
+
+    let inner = block.inner(area);
+    frame.render_widget(block, area);
+
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([Constraint::Fill(1)])
+        .split(inner);
+
+    let paragraph = Paragraph::new(Text::raw("Press 'q' to quit."))
+        .alignment(Alignment::Center)
+        .style(Style::default().fg(Color::Cyan));
+
+    frame.render_widget(paragraph, chunks[0]);
+}
+{% endif %}

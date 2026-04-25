@@ -11,20 +11,18 @@ categories:
   - title: 🐛 Bug Fixes
     labels:
       - bug
+      - fix
   - title: 🔐 Security updates
     labels:
       - security
   - title: ⚠️ Maintenance
     labels:
-      - chore
       - maintenance
   - title: 📄 Documentation
     labels:
       - docs
-      - documentation
   - title: 🧩 Dependency Updates
     labels:
-      - deps
       - dependencies
     collapse-after: 5
 change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
@@ -43,9 +41,7 @@ version-resolver:
     labels:
       - "bug"
       - "maintenance"
-      - "chore"
       - "dependencies"
-      - "deps"
       - "security"
       - "docs"
 template: |

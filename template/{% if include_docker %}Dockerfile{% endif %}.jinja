@@ -1,0 +1,61 @@
+# syntax=docker/dockerfile:1
+
+ARG VERSION
+ARG REVISION
+ARG BUILD_DATE
+
+# ============================================
+# Build Stage
+# ============================================
+FROM rust:1.95-alpine-3.23 AS builder
+
+WORKDIR /app
+
+# Install build dependencies
+RUN apk add --no-cache musl-dev openssl-dev
+
+# Copy manifests
+COPY Cargo.toml Cargo.lock ./
+
+# Create dummy main to cache dependencies
+RUN mkdir src && \
+    echo "fn main() {}" > src/main.rs && \
+    cargo build --release && \
+    rm -rf src
+
+# Copy real source code
+COPY src ./src
+
+# Build for release
+RUN touch src/main.rs && \
+    cargo build --release
+
+# ============================================
+# Runtime Stage
+# ============================================
+FROM alpine:3.23
+
+# Install runtime dependencies
+RUN apk add --no-cache ca-certificates
+
+# Create non-root user
+RUN adduser -D -u 1000 appuser
+USER appuser
+
+WORKDIR /app
+
+# Copy binary from builder
+COPY --from=builder --chown=appuser:appuser /app/target/release/{{ project_slug }} .
+
+LABEL org.opencontainers.image.title="{{ project_name }}"
+LABEL org.opencontainers.image.description="{{ project_description }}"
+LABEL org.opencontainers.image.version="${VERSION}"
+LABEL org.opencontainers.image.revision="${REVISION}"
+LABEL org.opencontainers.image.build_date="${BUILD_DATE}"
+LABEL org.opencontainers.image.source="{{ git_repo_url }}"
+
+ENV VERSION="${VERSION}"
+ENV REVISION="${REVISION}"
+ENV BUILD_DATE="${BUILD_DATE}"
+
+CMD ["./{{ project_slug }}"]

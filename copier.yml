@@ -3,7 +3,7 @@ _subdirectory: template
 
 project_name:
   type: str
-  help: What is your project name?
+  help: What is your the name of the project?
   validator: >-
     {% if not project_name %}
     project_name cannot be empty.
@@ -18,18 +18,45 @@ project_description:
   type: str
   help: A short description of your project.
 
-github_repository:
+project_type:
+  type: str
+  help: The type of project you want to create.
+  default: "library"
+  choices:
+    - library
+    - cli
+    - tui
+
+project_license:
+  type: str
+  help: The license for your project (e.g., MIT, Apache-2.0, GPL-3.0).
+  default: "MIT"
+  choices:
+    - MIT
+    - Apache-2.0
+    - GPL-3.0
+    - BSD-3-Clause
+    - Unlicense
+    - CC0-1.0
+
+git_repo_slug:
   type: str
   help: GitHub repository identifier (username/repo-name).
   validator: >-
-    {% if not (github_repository | regex_search('^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$')) %}
-    github_repository must be in the format 'username/repo-name'.
+    {% if not (git_repo_slug | regex_search('^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$')) %}
+    git_repo_slug must be in the format 'username/repo-name'.
     {% endif %}
 
-github_url:
+git_repo_url:
   type: str
-  help: The homepage URL for your project.
-  default: "https://github.com/{{ github_repository }}"
+  help: The repository URL
+  default: "https://github.com/{{ git_repo_slug }}"
+  when: false
+
+include_docker:
+  type: bool
+  help: Include Docker configuration?
+  default: false
 
 # Global tasks
 _tasks:

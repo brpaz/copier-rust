@@ -11,7 +11,7 @@ pre-commit:
       stage_fixed: true
     lint:
       glob: "src/*.rs"
-      run: cargo clippy --fix --all-targets --all-features -- -D warnings
+      run: cargo clippy --allow-dirty --fix --all-targets --all-features -- -D warnings
       stage_fixed: true
     test:
       run: cargo test --all

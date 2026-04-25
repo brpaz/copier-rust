@@ -1,6 +1,20 @@
+# yaml-language-server: $schema=https://json.schemastore.org/taskfile.json
 # https://taskfile.dev
-
 version: "3"
+
+vars:
+  PROJECT_NAME: "{{ project_name }}"
+  REVISION:
+    sh: git rev-parse --short=8 HEAD 2>/dev/null || echo "unknown"
+  VERSION:
+    sh: ver=$(git describe --tags --always --abbrev=8 2>/dev/null) && [ -n "$ver" ] && (echo "$ver" | sed 's/^v//' | sed 's/$/-dev/') || echo "0.0.0-dev"
+  BUILD_DATE:
+    sh: date -u +%Y-%m-%dT%H:%M:%SZ
+
+env:
+  REVISION: "{% raw %}{{.REVISION}}{% endraw %}"
+  VERSION: "{% raw %}{{.VERSION}}{% endraw %}"
+  BUILD_DATE: "{% raw %}{{.BUILD_DATE}}{% endraw %}"
 
 tasks:
   default:

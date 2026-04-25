@@ -1,0 +1,139 @@
+# Contributing guide
+
+This document outlines the guidelines and best practices for contributing to the project. Please take a moment to read through it before submitting a pull request.
+
+## Ways to Contribute
+
+Contributions can take many forms, not just code. Here are some ways you can contribute:
+- Reporting bugs or suggesting features by opening issues.
+- Submitting pull requests with bug fixes or new features.
+- Improving documentation.
+- Reviewing and providing feedback on existing pull requests.
+- Helping other users in the community.
+
+## Reporting Issues and Feature Requests
+
+Issues and feature requests can be reported by opening a new issue on [GitHub]({{ git_repo_url }}/issues).
+
+Please use the appropriate templates when opening an issue:
+
+- **[Bug Report]({{ git_repo_url }}/issues/new?template=bug-report.yml)**: For reporting bugs or unexpected behavior
+- **[Feature Request]({{ git_repo_url }}/issues/new?template=feature-request.yml)**: For suggesting new features or improvements
+
+### Before Opening an Issue
+
+- Search existing issues to avoid duplicates
+- For security vulnerabilities, follow the [security policy](./SECURITY.md) instead
+
+## Contributing with Code
+
+If you are a developer and want to contribute code, please follow the guidelines below to ensure a smooth contribution process.
+
+### Setup the Development Environment
+
+You have two options to set up your development environment:
+
+#### Option 1: Devenv (Local)
+
+For local development with full reproducibility using Nix:
+
+- [Devenv](https://devenv.dev) - development environment manager
+- [direnv](https://direnv.net) - auto-loads environment variables
+
+```bash
+git clone {{ git_repo_url }}
+cd {{ project_slug }}
+direnv allow
+```
+
+#### Option 2: Devcontainer (Remote)
+
+For development in GitHub Codespaces or VS Code Remote Containers:
+
+- Open the project in VS Code
+- Click "Reopen in Container" when prompted
+- Or use GitHub Codespaces
+
+See [./docs/devenv-setup.md](./docs/devenv-setup.md) for detailed instructions.
+
+### Git Flow
+
+We follow the [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow) for contributions:
+
+1. **Create a branch** from `main`
+   ```bash
+   git checkout main
+   git pull origin main
+   git checkout -b feature/your-feature-name
+   # or for bug fixes:
+   git checkout -b fix/issue-description
+   ```
+
+2. **Make your changes** and commit with descriptive messages
+
+3. **Open a Pull Request** when ready
+   - Fill in the PR template
+   - Link any related issues
+   - Request review from maintainers
+
+4. **Address feedback** and make changes if needed
+
+5. **Merge** after approval
+   - PRs require at least one approval
+   - All checks must pass
+   - Use "Squash and merge" for a clean history
+
+### Branch Naming
+
+Use descriptive branch names:
+- `feature/` for new features
+- `fix/` for bug fixes
+- `enhance/` for improvements to existing features
+- `docs/` for documentation changes
+
+### Commit Messages
+
+We follow the [Conventional Commits](https://www.conventionalcommits.org) format:
+
+```
+<type>(<scope>): <description>
+
+[optional body]
+[optional footer]
+```
+
+#### Types
+
+- `feat` - new feature
+- `fix` - bug fix
+- `docs` - documentation changes
+- `style` - formatting, no code change
+- `refactor` - code change that neither fixes nor adds
+- `perf` - performance improvement
+- `test` - adding or updating tests
+- `chore` - maintenance
+
+#### Examples
+
+```
+feat(auth): add OAuth2 login support
+fix(api): handle timeout errors gracefully
+docs: update installation instructions
+```
+
+### Pull Request Guidelines
+
+- Keep PRs focused and small (under 400 lines preferred)
+- Include clear description of what and why
+- Link related issues using "Closes #123" or "Fixes #456"
+- Add screenshots for UI changes
+- Ensure all tests pass
+- Update documentation if needed
+
+## Review Process
+
+All pull requests will be reviewed by at least one other team member. The reviewer will check for code quality, adherence to project guidelines, and overall functionality. They may request changes or provide feedback before the pull request can be merged.
+
+## Release Process
+
+Releases are created using GitHub Releases. The release process is automated using GitHub Actions and [Release Drafter](https://github.com/release-drafter/release-drafter).
