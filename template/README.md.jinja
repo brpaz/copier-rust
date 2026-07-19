@@ -6,6 +6,10 @@
 
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/{{ git_repo_slug }}/ci.yml?branch=main&style=for-the-badge)](https://github.com/{{ git_repo_slug }}/actions)
 [![License](https://img.shields.io/github/license/{{ git_repo_slug }}?style=for-the-badge)](./LICENSE)
+{% if project_type == 'library' -%}
+[![Crates.io](https://img.shields.io/crates/v/{{ project_slug }}?style=for-the-badge)](https://crates.io/crates/{{ project_slug }})
+[![docs.rs](https://img.shields.io/docsrs/{{ project_slug }}?style=for-the-badge)](https://docs.rs/{{ project_slug }})
+{% endif -%}
 
 </p>
 

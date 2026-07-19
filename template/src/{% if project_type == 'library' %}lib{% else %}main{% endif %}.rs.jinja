@@ -43,11 +43,11 @@ use std::io;
 
 use crossterm::event::{self, Event, KeyCode, KeyEventKind};
 use ratatui::{
+    DefaultTerminal, Frame,
     layout::{Alignment, Constraint, Direction, Layout},
     style::{Color, Style},
     text::Text,
     widgets::{Block, Borders, Paragraph},
-    DefaultTerminal, Frame,
 };
 
 const VERSION: &str = concat!(
@@ -70,10 +70,11 @@ fn run(terminal: &mut DefaultTerminal) -> io::Result<()> {
     loop {
         terminal.draw(ui)?;
 
-        if let Event::Key(key) = event::read()? {
-            if key.kind == KeyEventKind::Press && key.code == KeyCode::Char('q') {
-                return Ok(());
-            }
+        if let Event::Key(key) = event::read()?
+            && key.kind == KeyEventKind::Press
+            && key.code == KeyCode::Char('q')
+        {
+            return Ok(());
         }
     }
 }
@@ -99,5 +100,18 @@ fn ui(frame: &mut Frame) {
         .style(Style::default().fg(Color::Cyan));
 
     frame.render_widget(paragraph, chunks[0]);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use ratatui::{Terminal, backend::TestBackend};
+
+    #[test]
+    fn renders_without_panicking() {
+        let backend = TestBackend::new(40, 10);
+        let mut terminal = Terminal::new(backend).unwrap();
+        terminal.draw(ui).unwrap();
+    }
 }
 {% endif %}

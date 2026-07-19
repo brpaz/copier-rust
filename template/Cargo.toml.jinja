@@ -3,8 +3,17 @@ name = "{{ project_slug }}"
 version = "0.1.0"
 edition = "2024"
 description = "{{ project_description }}"
+authors = ["{{ author_name }} <{{ author_email }}>"]
 license = "{{ project_license }}"
 repository = "{{ git_repo_url }}"
+homepage = "{{ git_repo_url }}"
+{% if project_type == 'library' -%}
+documentation = "https://docs.rs/{{ project_slug }}"
+{% endif -%}
+readme = "README.md"
+rust-version = "1.95.0"
+# keywords = ["TODO"]
+# categories = ["TODO"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 {% if project_type == 'cli' -%}
@@ -17,15 +26,27 @@ name = "{{ project_slug }}"
 path = "src/main.rs"
 {% elif project_type == 'library' -%}
 [lib]
-name = "{{ project_slug }}"
+name = "{{ project_slug | replace('-', '_') }}"
 path = "src/lib.rs"
 {% endif %}
 
 {% if project_type == 'cli' -%}
 [dependencies]
 clap = { version = "4", features = ["derive"] }
+
+[dev-dependencies]
+assert_cmd = "2"
+predicates = "3"
 {% elif project_type == 'tui' -%}
 [dependencies]
 ratatui = "0.29"
 crossterm = "0.28"
 {% endif %}
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
+{% if project_type in ['cli', 'tui'] -%}
+panic = "abort"
+{% endif -%}

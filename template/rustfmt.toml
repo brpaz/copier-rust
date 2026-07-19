@@ -1,2 +1,8 @@
 # Custom configuration for rustfmt
-# See: https://github.com/rust-lang/rustfmt
+# See: https://rust-lang.github.io/rustfmt
+
+edition = "2024"
+max_width = 100
+use_small_heuristics = "Default"
+reorder_imports = true
+newline_style = "Unix"

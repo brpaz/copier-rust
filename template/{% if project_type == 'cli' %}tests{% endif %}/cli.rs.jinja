@@ -1,0 +1,30 @@
+use assert_cmd::Command;
+use predicates::prelude::*;
+
+#[test]
+fn prints_default_greeting() {
+    Command::cargo_bin("{{ project_slug }}")
+        .unwrap()
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("Hello, World!"));
+}
+
+#[test]
+fn prints_custom_greeting() {
+    Command::cargo_bin("{{ project_slug }}")
+        .unwrap()
+        .args(["--name", "Rust"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("Hello, Rust!"));
+}
+
+#[test]
+fn prints_version() {
+    Command::cargo_bin("{{ project_slug }}")
+        .unwrap()
+        .arg("--version")
+        .assert()
+        .success();
+}
