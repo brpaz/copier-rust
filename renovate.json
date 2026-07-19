@@ -5,16 +5,22 @@
   "prConcurrentLimit": 20,
   "labels": ["dependencies"],
   "reviewers": ["brpaz"],
+  "cargo": {
+    "managerFilePatterns": ["/(^|/)Cargo\\.toml$/", "/(^|/)Cargo\\.toml\\.jinja$/"]
+  },
+  "github-actions": {
+    "managerFilePatterns": [
+      "/(^|/)\\.github/workflows/[^/]+\\.ya?ml$/",
+      "/(^|/)\\.github/workflows/[^/]+\\.ya?ml\\.jinja$/"
+    ]
+  },
   "packageRules": [
     {
-      "matchFileNames": ["template/Cargo.toml.jinja"],
-      "matchManagers": ["cargo"],
-      "automerge": true
-    },
-    {
-      "matchFileNames": ["template/.github/workflows/ci.yml.jinja"],
-      "matchManagers": ["github-actions"],
-      "automerge": true
+      "description": "Group and automerge non-major updates",
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "non-major updates",
+      "automerge": true,
+      "platformAutomerge": true
     }
   ]
 }
