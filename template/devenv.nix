@@ -8,6 +8,7 @@
 
   # https://devenv.sh/packages/
   packages = with pkgs; [
+    cargo-watch
     commitlint-rs
     go-task
     lefthook
@@ -20,7 +21,7 @@
   };
 
   # https://devenv.sh/processes/
-  processes.cargo-watch.exec = "cargo-watch";
+  processes.cargo-watch.exec = "cargo watch -x check";
 
   # https://devenv.sh/services/
   # services.postgres.enable = true;
